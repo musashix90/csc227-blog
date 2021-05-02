@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Post;
 use Illuminate\Http\Request;
 
@@ -24,7 +25,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('post.create');
     }
 
     /**
@@ -35,7 +36,19 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required',
+            'url' => 'required|unique:posts|not_in:list,create,delete,show,update,store,login,register',
+            'body' => 'required'
+        ]);
+
+	$post = new Post();
+	$post->title = $request->title;
+	$post->url = $request->url;
+	$post->body = $request->body;
+	$post->user_id = Auth::id();
+	$post->save();
+	return redirect('/post/'.$post->url);
     }
 
     /**
