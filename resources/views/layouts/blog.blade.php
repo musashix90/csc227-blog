@@ -27,6 +27,7 @@
 							<li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
 							<li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
 						@else
+							<li class="nav-item"><a class="nav-link" href="/post/create">New Post</a></li>
 							@if(Route::currentRouteName() == 'post.show')
 								<li class="nav-item"><a class="nav-link" href="/post/{{ $post->url }}/edit">Edit Post</a></li>
 							@endif
