@@ -1,5 +1,7 @@
 @extends('layouts.blog')
 
+@section('title', "CSC227 Blog")
+
 @section('content')
 @foreach ($posts as $post)
 	<h1><a href="/post/{{ $post->url }}">{{ $post->title }}</a></h1>
