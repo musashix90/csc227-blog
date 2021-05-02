@@ -59,6 +59,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+        $post = Post::with('tags')->find($post->id);
         return view('post.show', compact('post'));
     }
 
