@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\Post;
+use App\Tag;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -48,6 +49,15 @@ class PostController extends Controller
 	$post->body = $request->body;
 	$post->user_id = Auth::id();
 	$post->save();
+	$tagNames = explode(',', $request->tags);
+	$tagIds = [];
+	foreach ($tagNames as $tagName) {
+		$tag = Tag::firstOrCreate(['name' => $tagName]);
+		if ($tag) {
+			$tagIds[] = $tag->id;
+		}
+	}
+	$post->tags()->sync($tagIds);
 	return redirect('/post/'.$post->url);
     }
 

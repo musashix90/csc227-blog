@@ -3,6 +3,7 @@
 @section('title', "New Post - CSC227 Blog")
 
 @section('content')
+<link rel="stylesheet" href="/css/tagsinput.css" />
 <h1>New Post</h1>
 <form method="POST" action="/post/store">
 	@csrf
@@ -30,8 +31,13 @@
 		<label for="body">Post Body</label>
 		<textarea class="form-control @error('body') is-invalid @enderror" id="body" name="body" rows="10" required>{{ old('body') }}</textarea>
 	</div>
+	<div class="form-group">
+		<label for="tags">Post Tags</label>
+		<input type="text" class="form-control" id="tags" name="tags" value="{{ old('tags') }}" data-role="tagsinput">
+	</div>
 	<button type="submit" class="btn btn-primary">Submit</button>
 </form>
+<script src="/js/tagsinput.js"></script>
 <script>
 $( "#title" ).keyup(function() {
 	var title = $("#title").val();
