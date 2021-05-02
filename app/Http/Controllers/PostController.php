@@ -97,7 +97,7 @@ class PostController extends Controller
     }
 
     public function list() {
-        $posts = Post::all();
+        $posts = Post::orderBy('created_at', 'DESC')->get();
         return view('post.list', compact('posts'));
     }
 }
