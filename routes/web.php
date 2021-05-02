@@ -13,6 +13,13 @@
 
 Route::get('/', 'PostController@list')->name('post.list');
 
-Route::get('/post/{post}', 'PostController@show')->name('post.show');
 
 Auth::routes();
+
+Route::middleware('auth')->group(function() {
+	Route::get('/post/create', 'PostController@create')->name('post.create');
+	Route::post('/post/store', 'PostController@store')->name('post.store');
+});
+
+Route::get('/post/{post}', 'PostController@show')->name('post.show');
+
