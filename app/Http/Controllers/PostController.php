@@ -82,4 +82,9 @@ class PostController extends Controller
     {
         //
     }
+
+    public function list() {
+        $posts = Post::all();
+        return view('post.list', compact('posts'));
+    }
 }

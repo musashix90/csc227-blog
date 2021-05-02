@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'PostController@list')->name('post.list');
 
 Route::get('/post/{post}', 'PostController@show')->name('post.show');
 
