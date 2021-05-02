@@ -24,4 +24,5 @@ Route::middleware('auth')->group(function() {
 });
 
 Route::get('/post/{post}', 'PostController@show')->name('post.show');
+Route::get('/tag/{tag}', 'TagController@show')->name('tag.show');
 
