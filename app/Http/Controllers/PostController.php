@@ -70,7 +70,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('post.edit', compact('post'));
     }
 
     /**
@@ -80,9 +80,21 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required',
+            'url' => 'required|unique:posts|not_in:list,create,delete,show,update,store,login,register',
+            'body' => 'required'
+        ]);
+
+	$post = Post::find($request->id);
+	$post->title = $request->title;
+	$post->url = $request->url;
+	$post->body = $request->body;
+	$post->user_id = Auth::id();
+	$post->save();
+	return redirect('/post/'.$post->url);
     }
 
     /**
