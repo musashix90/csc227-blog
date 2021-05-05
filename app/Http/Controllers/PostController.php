@@ -51,10 +51,12 @@ class PostController extends Controller
 	$post->save();
 	$tagNames = explode(',', $request->tags);
 	$tagIds = [];
-	foreach ($tagNames as $tagName) {
-		$tag = Tag::firstOrCreate(['name' => $tagName]);
-		if ($tag) {
-			$tagIds[] = $tag->id;
+	if ($request->tags != "") {
+		foreach ($tagNames as $tagName) {
+			$tag = Tag::firstOrCreate(['name' => $tagName]);
+			if ($tag) {
+				$tagIds[] = $tag->id;
+			}
 		}
 	}
 	$post->tags()->sync($tagIds);
@@ -81,7 +83,13 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('post.edit', compact('post'));
+        $post = Post::with('tags')->find($post->id);
+	$tags = "";
+	foreach ($post->tags as $tag) {
+            if ($tags != "") { $tags .= ","; }
+            $tags .= $tag->name;
+        }
+        return view('post.edit', compact('post', 'tags'));
     }
 
     /**
@@ -95,7 +103,7 @@ class PostController extends Controller
     {
         $this->validate($request, [
             'title' => 'required',
-            'url' => 'required|unique:posts|not_in:list,create,delete,show,update,store,login,register',
+            'url' => 'required|unique:posts,url,'.$request->id.'|not_in:list,create,delete,show,update,store,login,register',
             'body' => 'required'
         ]);
 
@@ -105,6 +113,17 @@ class PostController extends Controller
 	$post->body = $request->body;
 	$post->user_id = Auth::id();
 	$post->save();
+	$tagNames = explode(',', $request->tags);
+	$tagIds = [];
+	if ($request->tags != "") {
+		foreach ($tagNames as $tagName) {
+			$tag = Tag::firstOrCreate(['name' => $tagName]);
+			if ($tag) {
+				$tagIds[] = $tag->id;
+			}
+		}
+	}
+	$post->tags()->sync($tagIds);
 	return redirect('/post/'.$post->url);
     }
 
@@ -116,11 +135,13 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+	    $post->tags()->sync([]);
+	    $post->delete();
+	    return redirect('/');
     }
 
     public function list() {
-        $posts = Post::orderBy('created_at', 'DESC')->get();
+        $posts = Post::with('tags')->orderBy('created_at', 'DESC')->get();
         return view('post.list', compact('posts'));
     }
 }
