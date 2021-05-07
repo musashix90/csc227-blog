@@ -30,6 +30,7 @@
 							<li class="nav-item"><a class="nav-link" href="/post/create">New Post</a></li>
 							@if(Route::currentRouteName() == 'post.show')
 								<li class="nav-item"><a class="nav-link" href="/post/{{ $post->url }}/edit">Edit Post</a></li>
+								<li class="nav-item"><a class="nav-link" href="/post/{{ $post->url }}/delete">Delete Post</a></li>
 							@endif
 							<li class="nav-item dropdown">
 								<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
