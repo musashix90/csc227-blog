@@ -382,7 +382,7 @@
     "name": "SOURCE_REPOSITORY_URL",
     "displayName": "Git Repository URL",
     "description": "The URL of the repository with your application source code.",
-    "value": "https://github.com/muashix90/csc227-blog.git",
+    "value": "https://github.com/musashix90/csc227-blog.git",
     "required": true
   }, {
     "name": "SOURCE_REPOSITORY_REF",
